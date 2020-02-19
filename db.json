@@ -1,1 +1,5 @@
-{"AF":"Afghanistan","AX":"\u00c5land Islands","AL":"Albania","DZ":"Algeria"}
+[
+  {"id": "AF",
+    "name": "Afghanistan"},
+    {"id": "AX", "name": "\u00c5land Islands"},
+    {"id":"AL", "name": "Albania"},{"id":"DZ", "name":"Algeria"}]
