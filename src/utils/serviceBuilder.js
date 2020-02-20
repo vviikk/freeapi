@@ -87,7 +87,7 @@ export default (actionName, fn) => {
      *
      * @callback callback A callback function invoked during action being dispatched
      */
-    const updateActionCreator = (callback) => {
+    const getNewActionSync = (callback) => {
         const actionCreator = (...args) => (dispatch, getState) => {
             dispatch({
                 type: actionTypes.update,
@@ -107,7 +107,7 @@ export default (actionName, fn) => {
      *
      * @callback callback A callback function invoked during action being dispatched
      */
-    const updateAsyncActionCreator = (callback) => {
+    const getNewAction = (callback) => {
         const asyncActionCreator = (...args) => async (dispatch, getState) => {
             try {
                 const data = await Promise.resolve(callback(getState(), ...args));
@@ -134,10 +134,10 @@ export default (actionName, fn) => {
 
     return {
         action,
-        updateActionCreator,
-        updateAsyncActionCreator,
+        getNewActionSync,
+        getNewAction,
         actionTypes,
         reducer,
-        cleanAction: updateActionCreator(() => ({ data: null, error: null })),
+        cleanAction: getNewActionSync(() => ({ data: null, error: null })),
     };
 };
