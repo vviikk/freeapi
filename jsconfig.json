@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "baseUrl": "src",
+        "paths": {
+            "~views/*": ["views/*"],
+            "~utils/*": ["utils/*"],
+            "~config": ["config/*"]
+        }
+    },
+    "include": [
+        "src"
+    ]
+}

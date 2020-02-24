@@ -31,6 +31,7 @@
     "file-loader": "4.3.0",
     "fs-extra": "^8.1.0",
     "html-webpack-plugin": "4.0.0-beta.11",
+    "i18next": "^19.3.1",
     "identity-obj-proxy": "3.0.0",
     "jest": "24.9.0",
     "jest-environment-jsdom-fourteen": "1.0.1",
@@ -48,13 +49,16 @@
     "react-app-polyfill": "^1.0.6",
     "react-dev-utils": "^10.2.0",
     "react-dom": "^16.12.0",
+    "react-i18next": "^11.3.3",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
     "resolve": "1.15.0",
     "resolve-url-loader": "3.1.1",
     "sass-loader": "8.0.2",
     "semver": "6.3.0",
     "style-loader": "0.23.1",
+    "styled-components": "^5.0.1",
     "terser-webpack-plugin": "2.3.4",
     "ts-pnp": "1.1.5",
     "url-loader": "2.3.0",
@@ -87,8 +91,11 @@
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-optional-chaining": "^7.8.3",
     "@babel/plugin-proposal-throw-expressions": "^7.8.3",
+    "addon-redux": "^1.1.0",
     "babel-plugin-module-resolver": "^4.0.0",
-    "babel-plugin-styled-components": "^1.10.7"
+    "babel-plugin-styled-components": "^1.10.7",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-logger": "^3.0.6"
   },
   "jest": {
     "roots": [
@@ -139,5 +146,14 @@
       "jest-watch-typeahead/filename",
       "jest-watch-typeahead/testname"
     ]
+  },
+  "aliases": {
+    "~assets": "./src/assets",
+    "~lang": "./src/i18n",
+    "~icons": "./src/assets/icons",
+    "~config": "./src/config",
+    "~views": "./src/views",
+    "~utils": "./src/utils",
+    "~storybook": "./.storybook"
   }
 }

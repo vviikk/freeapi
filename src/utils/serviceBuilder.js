@@ -8,8 +8,8 @@
  * @param {function} updateFn function to fire to make the update on whatever parameters are provided
  * @returns {object} { action, { data, loading, error }, reducer }
  * */
-export default (actionName, fn) => {
-    if (typeof actionName !== 'string') {
+export default (serviceName, fn) => {
+    if (typeof serviceName !== 'string') {
         throw Error('actionName must be a string');
     }
 
@@ -18,11 +18,13 @@ export default (actionName, fn) => {
     }
 
     const actionSuffixes = ['request', 'success', 'failure', 'update'];
+
+    const SERVICE_NAME = serviceName.split(/(?=[A-Z])/).join('_').toUpperCase();
     // All that's happening here is we get an object like
     // { request: 'ACTION_NAME_REQUEST', success: 'ACTION_NAME_SUCCESS', failure: 'ACTION_NAME_FAILURE' }
     const actionTypes = actionSuffixes.reduce((acc, suffix) => ({
         ...acc,
-        [suffix]: [...actionName.split(/(?=[A-Z])/), suffix].join('_').toUpperCase(),
+        [suffix]: [SERVICE_NAME, suffix.toUpperCase()].join('_'),
     }), {});
 
     const initialState = {
@@ -54,13 +56,11 @@ export default (actionName, fn) => {
                 };
 
             case actionTypes.update:
+            default:
                 return {
                     ...state,
                     ...data,
                 };
-
-            default:
-                return state;
         }
     };
 
@@ -87,15 +87,16 @@ export default (actionName, fn) => {
      *
      * @callback callback A callback function invoked during action being dispatched
      */
-    const getNewActionSync = (callback) => {
+    const getNewActionSync = (callback, actionNameSuffix) => {
+        const newActionName = actionNameSuffix ? SERVICE_NAME + '_' + actionNameSuffix : actionTypes.update
         const actionCreator = (...args) => (dispatch, getState) => {
             dispatch({
-                type: actionTypes.update,
+                type: newActionName,
                 data: callback(getState(), ...args),
             });
         };
 
-        actionCreator.actionType = actionTypes.update;
+        actionCreator.actionType = newActionName;
 
         return actionCreator;
     };
@@ -107,12 +108,13 @@ export default (actionName, fn) => {
      *
      * @callback callback A callback function invoked during action being dispatched
      */
-    const getNewAction = (callback) => {
+    const getNewAction = (callback, actionNameSuffix) => {
+        const newActionName = actionNameSuffix ? SERVICE_NAME + '_' + actionNameSuffix : actionTypes.update
         const asyncActionCreator = (...args) => async (dispatch, getState) => {
             try {
                 const data = await Promise.resolve(callback(getState(), ...args));
                 dispatch({
-                    type: actionTypes.update,
+                    type: newActionName,
                     data,
                 });
 
@@ -126,7 +128,7 @@ export default (actionName, fn) => {
                 return Promise.reject(error);
             }
         };
-        asyncActionCreator.actionType = actionTypes.update;
+        asyncActionCreator.actionType = newActionName;
 
         return asyncActionCreator;
     };
@@ -138,6 +140,6 @@ export default (actionName, fn) => {
         getNewAction,
         actionTypes,
         reducer,
-        cleanAction: getNewActionSync(() => ({ data: null, error: null })),
+        cleanAction: getNewAction(() => ({ data: null, error: null }), 'CLEAN'),
     };
 };
