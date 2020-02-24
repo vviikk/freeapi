@@ -3,7 +3,6 @@ import useService from '~utils/useService';
 import { getCards } from 'services/cardService';
 import useAppState from '~utils/useAppState';
 
-
 export default () => {
     const [getCardsAction, clearCardsAction] = useService(getCards);
     const cardsList = useAppState('cards.data', []);

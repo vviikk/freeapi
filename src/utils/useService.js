@@ -6,7 +6,9 @@ export default (service) => {
     const dispatch = useDispatch();
     if (service.action) {
         return [
+            // action
             useMemo(() => bindActionCreators(service.action, dispatch), [service.action, dispatch]),
+            // clear action
             useMemo(() => bindActionCreators(service.cleanAction, dispatch), [service.cleanAction, dispatch]),
         ];
     }
