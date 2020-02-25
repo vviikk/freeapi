@@ -41,7 +41,7 @@ describe('service builder', () => {
         };
 
         it('should return a new object, using the previous state and updating isLoading flag to true', () => {
-            const type = 'REQUEST';
+            const type = 'BUSY';
             const data = {
                 countries: ['Brazil', 'Ireland'],
             };
@@ -77,7 +77,7 @@ describe('service builder', () => {
         it('should return previous state with the error message', () => {
             const type = 'FAILURE';
             const error = {
-                message: 'Bad request',
+                message: 'Bad busy',
             };
 
             const expectedResult = {
@@ -129,7 +129,7 @@ describe('service builder', () => {
             expect(dispatch).toHaveBeenCalledTimes(2);
 
             expect(dispatch).toHaveBeenCalledWith({
-                type: 'FETCH_COUNTRIES_REQUEST',
+                type: 'FETCH_COUNTRIES_BUSY',
             });
 
             expect(dispatch).toHaveBeenLastCalledWith({
@@ -151,7 +151,7 @@ describe('service builder', () => {
             expect(dispatch).toHaveBeenCalledTimes(3);
 
             expect(dispatch).toHaveBeenCalledWith({
-                type: 'FETCH_COUNTRIES_REQUEST',
+                type: 'FETCH_COUNTRIES_BUSY',
             });
 
             expect(dispatch).toHaveBeenLastCalledWith(

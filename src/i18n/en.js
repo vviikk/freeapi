@@ -7,5 +7,5 @@
  *    i.e. use text-transform rather than have somethins like 'TRADING MENU'
 */
 export default {
-    TEST: 'Test',
+    CARD_HEADING: 'Tarot Cards List',
 };

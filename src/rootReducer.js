@@ -4,9 +4,9 @@
 
 /* This will encapsulate all reducers in the app, and is it's own file to help hot reloading */
 import { combineReducers } from 'redux';
-import { cardsReducer } from './services/cardService';
+import cardsService from './services/cardService';
 
 
 export default combineReducers({
-    cards: cardsReducer,
+    cards: cardsService.reducer,
 });

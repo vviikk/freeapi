@@ -17,7 +17,7 @@ export default (serviceName, fn) => {
         throw Error(`endpoint must be a function, received: ${fn}`);
     }
 
-    const actionSuffixes = ['request', 'success', 'failure', 'update'];
+    const actionSuffixes = ['busy', 'success', 'failure', 'update'];
 
     const SERVICE_NAME = serviceName.split(/(?=[A-Z])/).join('_').toUpperCase();
     // All that's happening here is we get an object like
@@ -35,7 +35,7 @@ export default (serviceName, fn) => {
 
     const reducer = (state = initialState, { type, data, error }) => {
         switch (type) {
-            case actionTypes.request:
+            case actionTypes.busy:
                 return {
                     ...state,
                     isLoading: true,
@@ -60,24 +60,8 @@ export default (serviceName, fn) => {
                 return {
                     ...state,
                     ...data,
+                    isLoading: false,
                 };
-        }
-    };
-
-    const action = (...args) => async (dispatch, getState) => {
-        dispatch({
-            type: actionTypes.request,
-        });
-        try {
-            dispatch({
-                type: actionTypes.success,
-                data: await Promise.resolve(fn(getState(), ...args)),
-            });
-        } catch (error) {
-            dispatch({
-                type: actionTypes.failure,
-                error,
-            });
         }
     };
 
@@ -111,6 +95,9 @@ export default (serviceName, fn) => {
     const getNewAction = (callback, actionNameSuffix) => {
         const newActionName = actionNameSuffix ? SERVICE_NAME + '_' + actionNameSuffix : actionTypes.update
         const asyncActionCreator = (...args) => async (dispatch, getState) => {
+            dispatch({
+                type: actionTypes.busy,
+            });
             try {
                 const data = await Promise.resolve(callback(getState(), ...args));
                 dispatch({
@@ -135,7 +122,7 @@ export default (serviceName, fn) => {
 
 
     return {
-        action,
+        action: getNewAction(fn, 'SUCCESS'),
         getNewActionSync,
         getNewAction,
         actionTypes,

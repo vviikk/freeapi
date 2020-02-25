@@ -1,15 +1,20 @@
 import React from 'react';
 import useService from '~utils/useService';
-import { getCards } from 'services/cardService';
+import cardService from 'services/cardService';
 import useAppState from '~utils/useAppState';
+import { useTranslation } from 'react-i18next';
 
 export default () => {
-    const [getCardsAction, clearCardsAction] = useService(getCards);
-    const cardsList = useAppState('cards.data', []);
+    const [t] = useTranslation();
+    const [getCardsAction, clearCardsAction] = useService(cardService);
+    const { data: cardsList, isLoading } = useAppState('cards');
 
-    return <div>
-        <button onClick={getCardsAction}>get cards</button>
-        <button onClick={clearCardsAction}>clear</button>
-        {cardsList.map(({name}) => <div>{name}</div>)}
-    </div>
+    return isLoading
+        ? 'LOADING...'
+        : <div>
+            <h1>{t('CARD_HEADING')}</h1>
+            <button onClick={getCardsAction}>get cards</button>
+            <button onClick={clearCardsAction}>clear</button>
+            {cardsList && cardsList.map(({name, number}) => <div key={name+number}>{name}</div>)}
+        </div>
 }
