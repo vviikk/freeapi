@@ -3,6 +3,7 @@
         "baseUrl": "src",
         "paths": {
             "~views/*": ["views/*"],
+            "~lang/*": ["i18n/*"],
             "~utils/*": ["utils/*"],
             "~config": ["config/*"]
         }

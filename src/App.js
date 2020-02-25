@@ -1,13 +1,14 @@
 import React from 'react';
 import './App.css';
 import '~lang';
-import {Provider} from 'react-redux';
-import createStore from './store';
+
+import { createStore, Provider } from 'redux-peasy';
 import CardsList from 'views/CardsList/CardsList';
+import rootReducer from './rootReducer';
 
 function App() {
   return (
-    <Provider store={createStore()}>
+    <Provider store={createStore(rootReducer)}>
       <div className="App">
         <CardsList/>
       </div>

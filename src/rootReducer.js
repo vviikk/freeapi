@@ -3,7 +3,7 @@
  *  2. KEEP THIS FILE SORTED. */
 
 /* This will encapsulate all reducers in the app, and is it's own file to help hot reloading */
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux-peasy';
 import cardsService from './services/cardService';
 
 export default combineReducers({
