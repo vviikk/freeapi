@@ -1,7 +1,7 @@
-import { serviceBuilder } from '~utils/';
+import serviceBuilder from 'redux-peasy';
 import { API } from '~config';
 
-const getCards = serviceBuilder('card', async (state, cardId) => {
+const getCards = serviceBuilder('card', async (state) => {
     return (await fetch(API.CARDS)).json();
 });
 

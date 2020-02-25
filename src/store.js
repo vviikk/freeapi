@@ -11,19 +11,19 @@ import { createLogger } from 'redux-logger';
 
 import rootReducer from './rootReducer';
 
-const createMiddlewareEnhancer = () => {
+const createMiddlewareEnhancer = ({isAddLogger = true}) => {
     const middleware = [];
     middleware.push(thunkMiddleware);
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV !== 'production' && isAddLogger) {
         middleware.push(createLogger());
     }
 
     return applyMiddleware(...middleware);
 };
 
-const createEnhancer = () => {
+const createEnhancer = (options) => {
     const enhancers = [];
-    enhancers.push(createMiddlewareEnhancer());
+    enhancers.push(createMiddlewareEnhancer(options));
     if (process.env.NODE_ENV !== 'production') {
         enhancers.push(withReduxEnhancer);
     }
@@ -32,13 +32,13 @@ const createEnhancer = () => {
 };
 
 /** This function only wraps the store so that we can have hot module replacement during development */
-const configureStore = (preLoadedState) => {
-    const store = createStore(rootReducer, preLoadedState, createEnhancer());
+const configureStore = (preLoadedState, options = {}) => {
+    const store = createStore(rootReducer, preLoadedState, createEnhancer(options));
     if (process.env.NODE_ENV !== 'production' && module.hot) {
-        module.hot.accept('./rootReducer', () => store.replaceReducer(rootReducer));
+        module.hot.accept('./rootReducer', () => (console.log('hot') || true) && store.replaceReducer(rootReducer));
     }
 
     return store;
 };
 
-export default configureStore();
+export default (initialState = {}, options = {}) => configureStore(initialState, options);;

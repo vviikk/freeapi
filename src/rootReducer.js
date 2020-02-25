@@ -6,7 +6,6 @@
 import { combineReducers } from 'redux';
 import cardsService from './services/cardService';
 
-
 export default combineReducers({
     cards: cardsService.reducer,
 });

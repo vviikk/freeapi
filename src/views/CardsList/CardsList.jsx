@@ -1,7 +1,6 @@
 import React from 'react';
-import useService from '~utils/useService';
+import { useService, useAppState } from 'redux-peasy';
 import cardService from 'services/cardService';
-import useAppState from '~utils/useAppState';
 import { useTranslation } from 'react-i18next';
 
 export default () => {
