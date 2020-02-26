@@ -2,6 +2,7 @@ import React from 'react';
 import { useService, useAppState } from 'redux-peasy';
 import cardService from 'services/cardService';
 import { useTranslation } from 'react-i18next';
+import LoadingSVG from '../../loading.svg';
 
 export default () => {
     const [t] = useTranslation();
@@ -9,7 +10,7 @@ export default () => {
     const { data: cardsList, isLoading } = useAppState('cards');
 
     return isLoading
-        ? 'LOADING...'
+        ? <LoadingSVG/>
         : <div>
             <h1>{t('CARD_HEADING')}</h1>
             <button onClick={getCardsAction}>get cards</button>

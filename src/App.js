@@ -6,7 +6,7 @@ import { createStore, Provider } from 'redux-peasy';
 import CardsList from 'views/CardsList/CardsList';
 import rootReducer from './rootReducer';
 
-function App() {
+const App = () => {
   return (
     <Provider store={createStore(rootReducer)}>
       <div className="App">
